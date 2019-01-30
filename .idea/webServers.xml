@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="5fa1a049-a121-4e81-8a5d-c4c2e06953d5" name="driver-plat" url="http://94.191.39.145">
+        <fileTransfer host="94.191.39.145" port="22" rootFolder="/servers/nodes/driver-plat" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

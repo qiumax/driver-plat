@@ -1,0 +1,114 @@
+extends layouts/master
+
+
+block content
+    div.row-fluid(style="padding-top:20px;")
+        div.widget.widget-padding.span12#gallery_page
+            div.widget-header
+                i.icon-list-alt
+                h5 编辑企业信息
+            div.widget-body
+                div.widget-forms.clearfix
+                    form#form.form-horizontal(action="/api/truck/update" method="POST" enctype="multipart/form-data" onsubmit="return validate()")
+                        input( name="id" type="hidden" value="#{truck._id.toString()}")
+                        div.control-group
+                            label.control-label 名称：
+                            div.controls
+                                input.span7(type="text" name="name" value="#{truck.name}" required)
+
+                        div.control-group
+                            label.control-label 载重：
+                            div.controls
+                                input.span7(type="text" name="load" value="#{truck.load}" required)
+                        div.control-group
+                            label.control-label 长*宽*高：
+                            div.controls
+                                input.span7(type="text" name="size" value="#{truck.size}" required)
+
+                        div.control-group
+                            label.control-label 载货体积：
+                            div.controls
+                                input.span7(type="text" name="volume" value="#{truck.volume}" required)
+
+                        div.control-group
+                            label.control-label 图片：
+                            div.controls
+                                -if(truck.img)
+                                  a(href="#{truck.img}" rel="facybox")
+                                    img#image(src="#{truck.img}" style="height:100px")
+                                  input(type="file" name="img" style="margin-top:10px" onchange="remove_image()")
+                                -else
+                                    input(type="file" name="img")
+
+            div.widget-footer
+                button.btn.btn-primary(type="button" onclick="submitform()" style="margin-right:6px;") 更新
+                button.btn(type="button" onclick="try_remove()" ) 删除
+
+
+        div#del_modal.modal.fade
+            div.modal-dialog
+                div.modal-content.message_align
+                    div.modal-header
+                        button.close(type="button" data-dismiss="modal") &times;
+                        h4.modal-title 提示
+                    div.modal-body
+                        p 您确认要删除吗？
+                    div.modal-footer
+                        button.btn.btn-default(type="button" data-dismiss="modal") 关闭
+                        button.btn.btn-danger(type="button" data-dismiss="modal" onclick="remove('#{truck._id.toString()}')") 确定
+
+    script.
+        function remove_image() {
+            $("#img").hide();
+        }
+
+        function validate() {
+            update();
+            return false;
+        }
+        function submitform() {
+            console.log('--')
+            $("#form").submit();//表单提交
+        }
+
+        function update() {
+            //var form_data = $("#form").serialize();
+            //var files = $("#license_image").files;
+            //form_data.append("files", files);
+            var form_data = new FormData($("#form")[0]);
+            $.ajax({
+                url: '/api/truck/update',
+                data: form_data,
+                type: 'POST',
+                processData:false,
+                contentType:false,
+                success: function (data) {
+                    window.location.href=data
+                    //console.log(data.ok);
+                    //alert(data.ok);
+                }
+            })
+        }
+
+        function try_remove() {
+            $("#del_modal").modal('show');
+        }
+
+        function remove(id) {
+            $.ajax({
+                url: '/api/truck/delete',
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                success: function (data) {
+                    if(data.ok) {
+                        window.open("/api/truck/all", "_self");
+                    }
+                }
+            })
+        }
+
+

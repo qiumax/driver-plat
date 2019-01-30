@@ -1,0 +1,55 @@
+
+doctype html
+html
+  head
+    title= '老司机 管理平台'
+
+
+
+    link(rel='stylesheet', href='/assets/css/bootstrap.css')
+    link(rel='stylesheet', href='/assets/css/theme.css')
+    link(rel='stylesheet', href='/assets/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/assets/css/alertify.css')
+
+    script(src='/assets/js/jquery.min.js')
+    script(src='/assets/js/jquery-ui.min.js')
+    script(src='/assets/js/raphael-min.js')
+    script(src='/assets/js/bootstrap.js')
+    script(src='/assets/js/sparkline.js')
+
+    script(src='/assets/js/morris.min.js')
+    script(src='/assets/js/jquery.dataTables.min.js')
+    script(src='/assets/js/jquery.masonry.min.js')
+    script(src='/assets/js/jquery.imagesloaded.min.js')
+    script(src='/assets/js/jquery.facybox.js')
+
+    script(src='/assets/js/jquery.alertify.min.js')
+    script(src='/assets/js/jquery.knob.js')
+    script(src='/assets/js/fullcalendar.min.js')
+    script(src='/assets/js/jquery.gritter.min.js')
+    script(src='/assets/js/realm.js')
+    script(src='/assets/js/jquery.slimscroll.min.js')
+
+    script(src='/javascripts/bootstrap-paginator.js')
+  body(style="padding-top:0;background-image:url('/assets/img/login_bg1.jpg');background-size:100%;background-repeat:no-repeat")
+    div#wrap
+      div.container-fluid
+        div.row-fluid
+          div.span12
+            div(style="display:flex;justify-content:center;")
+              div.widget.container-narrow_right
+                  div.widget-header
+                    i.icon-user
+                    h5 三一老司机管理平台
+                  div.widget-body.clearfix
+                      form(role='form',action='/admin/login', method='post' style="padding:25px;")
+                          div.control-group
+                            div.controls
+                              input.btn-block(type='text', name='username', id='inputEmail', placeholder='用户名', required, autofocus)
+
+                          div.control-group
+                            div.controls
+                              input.btn-block(type='password', name='password', id='inputPassword', placeholder='密码')
+
+                          button.btn.btn-lg.btn-primary.btn-block(type='submit') 登录
+

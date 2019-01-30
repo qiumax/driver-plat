@@ -1,0 +1,9 @@
+extends layouts/master
+
+block nav_url
+  include nav/index
+
+block side_bar
+
+block content
+  h2.form-signin-heading aaaa

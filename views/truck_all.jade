@@ -1,0 +1,76 @@
+extends layouts/master
+
+block content
+    div.row-fluid(style="padding-top:20px;")
+        div.widget.widget-padding.span12
+            div.widget-header
+                i.icon-group
+                h5 车型列表
+            div.widget-body
+                div.dataTables_wrapper.form-inline
+                    div.row-fluid(style="padding-bottom:10px;")
+                        form.form-horizontal(action="/api/truck/search", method="POST")
+                            div.span6
+                                div.dataTables_length
+                                    input(id="query", name="query", placeholder="请输入关键字", value="", type="text")
+                                    button.btn.btn-sm.btn-primary(type="submit" style="margin-left:10px;") 搜索
+                table.table.table-striped.table-bordered.dataTable#users
+                    thead
+                        tr
+                            th 图片
+                            th 名称
+                            th 载重
+                            th 长*宽*高
+                            th 载货体积
+                            th 操作
+                    tbody
+                        -for(var i=0; i<trucks.length; i++)
+                            tr
+                                td
+                                    img(src="#{trucks[i].img}",style="height:20px")
+                                td #{trucks[i].name}
+                                td #{trucks[i].load}
+                                td #{trucks[i].size}
+                                td #{trucks[i].volume}
+                                td
+                                    a(href="/api/truck/edit?id=#{trucks[i]._id}") 编辑
+
+                div.row-fluid
+                    div.span6
+                    div.span6
+                        div.dataTables_paginate.paging_bootstrap.pagination
+                            ul#page.pagination
+
+    script.
+        var page = '#{page}';
+        var page_total = '#{page_total}';
+
+        if(page_total>1) {
+            $('#page').bootstrapPaginator({
+                currentPage: page,
+                totalPages: page_total,
+                size: "normal",
+                bootstrapMajorVersion: 3,
+                alignment: "right",
+                numberOfPages: 5,
+                itemTexts: function (type, page, current) {
+                    switch (type) {
+                        case "first":
+                            return "首页";
+                        case "prev":
+                            return "上一页";
+                        case "next":
+                            return "下一页";
+                        case "last":
+                            return "末页";
+                        case "page":
+                            return page;
+                    }
+                },
+                onPageClicked: function (e, originalEvent, type, page) {
+                    console.log("Page item clicked, type: " + type + " page: " + page);
+
+                    window.open("/api/truck/all?page=" + page, "_self");
+                }
+            })
+        }

@@ -1,0 +1,76 @@
+extends layouts/master
+
+block content
+  div.row-fluid(style="padding-top:20px;")
+    div.widget.widget-padding.span12
+      div.widget-header
+        i.icon-list-alt
+        h5 运单详情
+      div.widget-body
+        div.widget-forms.clearfix
+          form.form-horizontal()
+            div.control-group
+              label.control-label 起始地址：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.from.city} -> #{need.to.city}
+
+            div.control-group
+              label.control-label 企业信息：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.account.company.name} -  #{need.account.name}
+
+
+            div.control-group
+              label.control-label 发货地址：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.from.address}
+
+            div.control-group
+              label.control-label 发货人：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.from.name} #{need.from.phone}
+
+            div.control-group
+              label.control-label 收货地址：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.to.address}
+
+            div.control-group
+              label.control-label 收货人：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.to.name} #{need.to.phone}
+
+            div.control-group
+              label.control-label 货物名称：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.cargo}
+
+            div.control-group
+              label.control-label 重量(吨)：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.mass}
+
+            div.control-group
+              label.control-label 尺寸：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.size}
+
+            div.control-group
+              label.control-label 距离(公里)：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.distance}
+
+
+            div.control-group
+              label.control-label 费用(元)：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.price}
+
+            div.control-group
+              label.control-label 发货时间：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{need.sendtime}
+
+
+
+

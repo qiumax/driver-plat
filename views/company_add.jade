@@ -1,0 +1,148 @@
+extends layouts/master
+
+
+block content
+  div.row-fluid(style="padding-top:20px;")
+    div.widget.widget-padding.span12
+      div.widget-header
+        i.icon-list-alt
+        h5 新增企业
+      div.widget-body
+        div.widget-forms.clearfix
+          form#comform.form-horizontal(action="/api/company/update" method="POST" enctype="multipart/form-data" onsubmit="return validate()")
+            div.control-group
+              label.control-label 用户名：
+              div.controls
+                input.span5(type="text", name="username", required, onblur="check_username()")
+                p#username_hint.help-block.text-red
+
+              div.control-group
+                label.control-label 密码：
+                div.controls
+                  input.span5(type="password", name="password", required)
+
+              div.control-group
+                label.control-label 确认密码：
+                div.controls
+                  input.span5(type="password", name="password_confirm", required)
+
+              div.control-group
+                label.control-label 企业名称：
+                div.controls
+                  input.span5(type="text", name="name", required)
+
+              div.control-group
+                label.control-label 注册地址：
+                div.controls
+                  input.span5(type="text", name="address", required)
+
+              div.control-group
+                label.control-label 营业执照号码：
+                div.controls
+                  input.span5(type="text", name="license_number", required)
+
+              div.control-group
+                label.control-label 营业执照图片：
+                div.controls
+                  input.span5#license_image(type="file", name="license_image", style="margin-top:5px", required)
+
+              div.control-group
+                label.control-label 联系人：
+                div.controls
+                  input.span5(type="text", name="contact_name", required)
+
+              div.control-group
+                label.control-label 联系电话：
+                div.controls
+                  input.span5(type="text", name="contact_phone", required)
+
+              div.control-group
+                label.control-label 价格(元/吨/公里)：
+                div.controls
+                  input.span5(type="text", name="price_dun", required)
+
+
+              div.control-group
+                label.control-label 价格(元/方/公里)：
+                div.controls
+                  input.span5(type="text", name="price_fang", required)
+
+              div.control-group
+                label.control-label 配载价格(元/吨/公里)：
+                div.controls
+                  input.span5(type="text", name="price_peizai", required)
+
+              div.control-group
+                label.control-label 整车价格(元/吨/公里)：
+                div.controls
+                  input.span5(type="text", name="price_zhengche", required)
+
+              div.control-group
+                label.control-label 超限价格(元/吨/公里)：
+                div.controls
+                  input.span5(type="text", name="price_chaoxian", required)
+
+      div.widget-footer
+        button.btn.btn-primary(type="button" onclick="submitform()") 新增
+
+
+    script.
+        function validate() {
+            var password = $("input[name='password']").val();
+            var password_confirm = $("input[name='password_confirm']").val();
+
+            if (password != password_confirm) {
+                alert("两次输入的密码不相符");
+                return false;
+            }
+
+            add();
+
+            return false;
+        }
+        function submitform() {
+          console.log('--')
+          $("#comform").submit();//表单提交
+        }
+
+        function check_username() {
+            var username = $("input[name='username']").val();
+            if(!username) return;
+
+            $.ajax({
+                url: '/api/company/check_username',
+                data:{
+                    username: username
+                },
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                success: function (data) {
+                    if(data.ok) {
+                        console.log(data.ok);
+                        $("#username_hint").html("");
+                    }
+                    else {
+                        console.log(data.ok);
+                        $("#username_hint").html("已存在，请重新输入");
+                    }
+                }
+            })
+        }
+
+        function add() {
+            var form_data = new FormData($("#comform")[0]);
+
+
+            $.ajax({
+                url: '/api/company/add',
+                data: form_data,
+                type: 'POST',
+                processData:false,
+                contentType:false,
+                success: function (data) {
+
+                    window.location.href=data;
+                }
+            })
+        }

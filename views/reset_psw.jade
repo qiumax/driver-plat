@@ -1,0 +1,76 @@
+extends layouts/master
+
+
+block content
+    div.row-fluid(style="padding-top:20px;")
+        div.widget.widget-padding.span12#gallery_page
+            div.widget-header
+                i.icon-list-alt
+                h5 修改密码
+            div.widget-body
+                div.widget-forms.clearfix
+                    form#comform.form-horizontal(action="/api/admin/update" method="POST" enctype="multipart/form-data" onsubmit="return validate()")
+                        input( name="id" type="hidden" value="#{company._id.toString()}")
+                        div.control-group
+                            label.control-label 原密码：
+                            div.controls
+                              input.form-control.span7(type="password" name="oldpassword" id="oldpassword")
+
+
+                        div.control-group
+                          label.control-label 新密码：
+                          div.controls
+                            input.form-control.span7(type="password" name="newpassword" id="newpassword")
+
+
+                        div.control-group
+                          label.control-label 确认密码：
+                          div.controls
+                            input.span7(type="password" name="password_confirm" id="password_confirm")
+
+
+
+            div.widget-footer
+                button.btn.btn-primary(type="button" onclick="submitform()" style="margin-right:6px;") 更新
+
+
+
+
+
+    script.
+        function validate() {
+            var password = $("input[name='password']").val();
+            var password_confirm = $("input[name='password_confirm']").val();
+
+            if (password && password_confirm && password != password_confirm) {
+                alert("两次输入的密码不相符");
+                return false;
+            }
+
+            update();
+
+            return false;
+        }
+
+        function update() {
+            console.log($("#comform")[0]);
+            var form_data = new FormData($("#comform")[0]);
+
+            //var files = $("#license_image").files;
+
+            console.log(form_data)
+            //form_data=form_data+"&files=" +files;
+            $.ajax({
+                url: '/api/company/update',
+                data: form_data,
+                type: 'POST',
+                processData:false,
+                contentType:false,
+                success: function (data) {
+                    console.log(data);
+                    window.location.href=data
+                }
+            })
+        }
+
+

@@ -1,0 +1,130 @@
+extends layouts/master
+
+block content
+  div.row-fluid(style="padding-top:20px;")
+    div.widget.widget-padding.span12#gallery_page
+      div.widget-header
+        i.icon-list-alt
+        h5 运单详情
+      div.widget-body
+        div.widget-forms.clearfix
+          form.form-horizontal()
+            div.control-group
+              label.control-label 起始地址：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.from.city} -> #{order.to.city}
+
+            div.control-group
+              label.control-label 企业信息：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.account.company.name} -  #{order.account.name}
+
+            div.control-group
+              label.control-label 司机信息：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.driver.user.name}  #{order.driver.user.phone}
+
+            div.control-group
+              label.control-label 发货地址：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.from.address}
+
+            div.control-group
+              label.control-label 发货人：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.from.name} #{order.from.phone}
+
+            div.control-group
+              label.control-label 收货地址：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.to.address}
+
+            div.control-group
+              label.control-label 收货人：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.to.name} #{order.to.phone}
+
+            div.control-group
+              label.control-label 货物名称：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.cargo}
+
+            div.control-group
+              label.control-label 重量(吨)：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.mass}
+
+            div.control-group
+              label.control-label 尺寸：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.size}
+
+            div.control-group
+              label.control-label 距离(公里)：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.distance}
+
+
+            div.control-group
+              label.control-label 费用(元)：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.price}
+
+            div.control-group
+              label.control-label 发货时间：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.sendtime}
+
+            -if(order.tousu_to_driver.content)
+                div.control-group
+                  label.control-label 投诉详情：
+                  div.controls
+                    p(type="text"  style="margin-top:5px") 投诉时间：#{order.tousutime}
+                    p(type="text"  style="margin-top:5px") 投诉内容：#{order.tousu_to_driver.content}
+                    -if(order.tousu_to_driver.pics && order.tousu_to_driver.pics.length>0)
+                        -for(var i=0;i<order.tousu_to_driver.pics.length;i++)
+                          a(href="#{order.tousu_to_driver.pics[i]}" rel="facybox")
+                            img(src="#{order.tousu_to_driver.pics[i]}" style="height:100px;padding-right:10px")
+
+            -if(order.plat_handle_tousu.content)
+                div.control-group
+                  label.control-label 投诉处理：
+                  div.controls
+                    p(type="text"  style="margin-top:5px") 投诉时间：#{order.handletime}
+                    p(type="text"  style="margin-top:5px") 处理意见：#{order.plat_handle_tousu.content}
+                    -if(order.plat_handle_tousu.pics && order.plat_handle_tousu.pics.length>0)
+                      -for(var i=0;i<order.plat_handle_tousu.pics.length;i++)
+                        a(href="#{order.plat_handle_tousu.pics[i]}" rel="facybox")
+                          img(src="#{order.plat_handle_tousu.pics[i]}" style="height:100px;padding-right:10px;")
+
+            div.control-group
+              label.control-label 运单状态：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{order.state == 1 ? "司机已接单" : (order.state == 2 ? '司机已取货' : (order.state == 3 ? '运送中' : (order.state == 4 ? '司机已确认交货' : (order.state == 5 ? '收货方发起投诉' : (order.state == 6 ? '投诉处理完成' : (order.state ==7 ? '收货方确认收货':'已完成'))))))}
+
+
+            div.control-group
+              label.control-label 运单详情：
+              div.controls
+                button.btn.btn-primary(type="button" onclick="showdetail()" style="padding:6px 10px;") 查看
+
+
+        div#detail_modal.modal.fade
+          div.modal-dialog
+            div.modal-content.message_align
+              div.modal-header
+                button.close(type="button" data-dismiss="modal") &times;
+                h4.modal-title 运单记录
+              div.modal-body
+                -for(var i=0; i<order.log.length; i++)
+                    p #{order.log[i]}
+              div.modal-footer
+                button.btn.btn-default(type="button" data-dismiss="modal") 关闭
+
+
+
+        script.
+          function showdetail() {
+              console.log("a");
+              $("#detail_modal").modal('show');
+          }

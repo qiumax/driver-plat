@@ -1,0 +1,102 @@
+extends layouts/master
+
+block content
+    div.row-fluid(style="padding-top:20px;")#dashboard_page
+        div.overview_boxes
+            div.box_row.clearfix
+                div.widget-tasks-statistics
+                    div.userstats.clearfix(style="margin-top: 25px;")
+                        div.white
+                          i.icon-eye-open(style="color:#E28271")
+                          p(style="color:#E28271") +85%
+                        div.widget
+                          input.knob(data-width="120" data-height="120" data-displayInput=false data-readOnly=true data-thickness=".15" value="85")
+                        p
+                          strong +11530
+                          本月访问
+
+                div.widget-tasks-statistics
+                  div.userstats.clearfix(style="margin-top: 25px;")
+                    div.white
+                      i.icon-user(style="color:#98E5EA")
+                      p(style="color:#98E5EA") +55%
+                    div.widget
+                      input.knob(data-width="120" data-height="120" data-displayInput=false data-readOnly=true data-thickness=".15" value="55")
+                    p
+                      strong +1320
+                      新增用户
+
+
+
+                div.widget-tasks-statistics
+                  div.userstats.clearfix(style="margin-top: 25px;")
+                    div.white
+                      i.icon-bullhorn(style="color:#AEEA98")
+                      p(style="color:#AEEA98") +60%
+                    div.widget
+                      input.knob(data-width="120" data-height="120" data-displayInput=false data-readOnly=true data-thickness=".15" value="60")
+                    p
+                      strong +280
+                      运单已完成
+
+                div.widget-tasks-statistics
+                  div.userstats.clearfix(style="margin-top: 25px;")
+                    div.white
+                      i.icon-thumbs-up(style="color:#98AEEA")
+                      p(style="color:#98AEEA") +45%
+                    div.widget
+                      input.knob(data-width="120" data-height="120" data-displayInput=false data-readOnly=true data-thickness=".15" value="45")
+                    p
+                      strong +35130
+                      总金额
+
+    div.row-fluid
+        div.widget.span4
+            div.widget-header
+                i.icon-bar-chart
+                h5 本周统计
+            div.widget-body.clearfix
+                div.widget-analytics-small
+                    ul
+                        li
+                            span.inlinesparkline 1,5,10,5,25,30,12,22
+                            h5 访问人数
+                            h4 502
+                        li
+                            span.inlinesparkline 5,4,5,7,8,1,1,20,2
+                            h5 新增用户数
+                            h4 420
+                        li
+                            span.inlinesparkline 5,4,50,7,8,1,1,20,2
+                            h5 新增司机
+                            h4 220
+                        li
+                            span.inlinesparkline 5,4,5,7,8,30,1,20,2
+                            h5 新增企业
+                            h4 200
+                        li
+                            span.inlinesparkline 5,4,51,7,28,30,1,20,2
+                            h5 发单数量
+                            h4 132
+                        li
+                            span.inlinesparkline 5,40,51,7,28,30,1,20,20
+                            h5 平台流水
+                            h4 13230
+                        li
+                            span.inlinesparkline 25,4,51,17,28,30,12,20,2
+                            h5 已完成运单
+                            h4 30
+        div.widget.span8
+            div.widget-header
+                i.icon-credit-card
+                h5 最近6个月流水统计
+            div.widget-body.clearfix
+                div.widget-analytics-large#graph(style="height:274px")
+
+    div.row-fluid
+        div.widget.span12
+            div.widget-header
+                i.icon-signal
+                h5 运单统计
+            div.widget-body.clearfix(style="border-top:1px solid #DDD")
+                div.analytics_item#barchart

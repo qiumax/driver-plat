@@ -1,0 +1,177 @@
+extends layouts/master
+
+
+block content
+    div.row-fluid
+        div.widget.widget-padding.span12
+            div.widget-header
+                i.icon-list-alt
+                h5 编辑企业信息
+            div.widget-body
+                div.widget-forms.clearfix
+                    form#comform.form-horizontal(action="/api/company/update" method="POST" enctype="multipart/form-data" onsubmit="return validate()")
+                        input( name="id" type="hidden" value="#{company._id.toString()}")
+                        div.control-group
+                            label.control-label 用户名
+                            div.controls
+                                input.span7(disabled="" type="text" placeholder="#{company.username}")
+
+                        div.control-group
+                          label.control-label 密码
+                          div.controls
+                            input.span7(type="password" name="password")
+
+
+                        div.control-group
+                          label.control-label 确认密码
+                          div.controls
+                            input.span7(type="password" name="password_confirm")
+
+
+                        div.control-group
+                          label.control-label 企业名称
+                          div.controls
+                            input.span7(type="text" name="name" value="#{company.name}" required)
+
+                        div.control-group
+                          label.control-label 注册地址
+                          div.controls
+                            input.span7(type="text" name="address" value="#{company.address}" required)
+
+                        div.control-group
+                          label.control-label 营业执照号码
+                          div.controls
+                            input.span7(type="text" name="license_number" value="#{company.license_number}" required)
+
+
+                        div.control-group
+                          label.control-label 联系人
+                          div.controls
+                            input.span7(type="text" name="contact_name" value="#{company.contact_name}" required)
+
+                        div.control-group
+                          label.control-label 联系电话
+                          div.controls
+                            input.span7(type="text" name="contact_phone" value="#{company.contact_phone}" required)
+
+                        div.control-group
+                          label.control-label 价格（元/吨/公里）
+                          div.controls
+                            input.span7(type="text" name="price_dun" value="#{company.price_dun}" required)
+
+                        div.control-group
+                          label.control-label 价格（元/方/公里）
+                          div.controls
+                            input.span7(type="text" name="price_fang" value="#{company.price_fang}" required)
+
+                        div.control-group
+                          label.control-label 状态
+                          div.controls
+                            -if(company.state)
+                                label.radio
+                                  input(type="radio" value="true" name="state" checked)
+                                  启动
+                                label.radio
+                                  input(type="radio" value="false" name="state")
+                                  停止
+                            -else
+                                label.radio
+                                  input(type="radio" value="true" name="state")
+                                  启动
+                                label.radio
+                                  input(type="radio" value="false" name="state" checked)
+                                  停止
+
+                        div.control-group
+                          label.control-label 营业执照图片
+                          div.controls
+                            -if(company.license_image)
+                              img#license_image(src="#{company.license_image}" height="300px")
+                              input(type="file" name="license_image" style="margin-top:10px" onchange="remove_image()")
+                            -else
+                              input(type="file" name="license_image")
+
+            div.widget-footer
+                button.btn.btn-primary(type="button" onclick="submitform()") 更新
+                button.btn(type="button" onclick="try_remove()") 删除
+
+
+        div#del_modal.modal.fade
+            div.modal-dialog
+                div.modal-content.message_align
+                    div.modal-header
+                        button.close(type="button" data-dismiss="modal") &times;
+                        h4.modal-title 提示
+                    div.modal-body
+                        p 您确认要删除吗？
+                    div.modal-footer
+                        button.btn.btn-default(type="button" data-dismiss="modal") 关闭
+                        button.btn.btn-danger(type="button" data-dismiss="modal" onclick="remove('#{company._id.toString()}')") 确定
+
+    script.
+        function remove_image() {
+            $("#license_image").hide();
+        }
+        
+        function submitform() {
+            console.log('--')
+            $("#comform").submit();//表单提交
+        }
+
+        function validate() {
+            var password = $("input[name='password']").val();
+            var password_confirm = $("input[name='password_confirm']").val();
+
+            if (password && password_confirm && password != password_confirm) {
+                alert("两次输入的密码不相符");
+                return false;
+            }
+
+            update();
+
+            return false;
+        }
+
+        function update() {
+            var form_data = $("#comform").serialize();
+            console.log($("#comform").serialize())
+            var files = $("#license_image").files;
+            //form_data.append("files", files);
+            form_data=form_data+"&files=" +files;
+            $.ajax({
+                url: '/api/company/update',
+                data: form_data,
+                type: 'POST',
+                enctype: 'multipart/form-data',
+                cache: false,
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.ok);
+                    alert(data.ok);
+                }
+            })
+        }
+
+        function try_remove() {
+            console.log("a");
+            $("#del_modal").modal('show');
+        }
+
+        function remove(id) {
+            $.ajax({
+                url: '/api/company/delete',
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                cache: false,
+                dataType: 'json',
+                success: function (data) {
+                    if(data.ok) {
+                        window.open("/api/company/all", "_self");
+                    }
+                }
+            })
+        }
+
+

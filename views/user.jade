@@ -1,0 +1,34 @@
+extends layouts/master
+
+block content
+  div.row-fluid(style="padding-top:20px;")
+    div.widget.widget-padding.span12
+      div.widget-header
+        i.icon-group
+        h5 待审核列表
+      div.widget-body
+        table.table.table-striped.table-bordered.dataTable#users
+            thead
+                tr
+                    //th ID
+                    th 姓名
+                    th 电话
+                    th 申请时间
+                    th 状态
+
+            tbody
+                -for(var i=0; i<drivers.length; i++)
+                    tr
+                        //td #{drivers[i]._id}
+                        td #{drivers[i].name}
+                        td #{drivers[i].phone}
+                        td #{drivers[i].apply_time}
+                        -if(drivers[i].apply_driver_state==1)
+                            td
+                                a(href="/api/driver/approve?id=#{drivers[i]._id}") 待初审
+                        -else if(drivers[i].apply_driver_state==2)
+                            td
+                                a(href="/api/driver/approve?id=#{drivers[i]._id}") 待面审
+                        -else if(drivers[i].apply_driver_state==3)
+                            td
+                                a(href="/api/driver/approve?id=#{drivers[i]._id}") 已通过

@@ -1,0 +1,91 @@
+extends layouts/master
+
+block content
+  div.row-fluid(style="padding-top:20px;")
+    div.widget.widget-padding.span12
+      div.widget-header
+        i.icon-group
+        h5 运单列表
+      div.widget-body
+        div.dataTables_wrapper.form-inline
+          div.row-fluid(style="padding-bottom:10px;")
+            form.form-horizontal(action="/api/order/search", method="POST")
+              div.span6
+                div.dataTables_length
+                  input(id="query", name="query", placeholder="请输入关键字", value="", type="text")
+                  button.btn.btn-sm.btn-primary(type="submit" style="margin-left:10px;") 搜索
+        table.table.table-striped.table-bordered.dataTable#users
+          thead
+              tr
+                  //th ID
+                  th 公司
+                  th 发货地
+                  th 收货地
+                  th 货物名称
+                  th 重量/体积
+                  th 距离
+                  th 费用
+                  th 接单时间
+                  th 发单时间
+                  th 司机
+                  th 运单状态
+                  th 操作
+          tbody
+              -for(var i=0; i<orders.length; i++)
+                  tr
+
+                      td
+                        a(href="/api/company/edit?id=#{orders[i].account.company._id}",target="_blank") #{orders[i].account.company.name}
+                      td #{orders[i].from.city}
+                      td #{orders[i].to.city}
+                      td #{orders[i].cargo}
+                      td #{orders[i].mass==0?orders[i].volume+'方':orders[i].mass+'吨'}
+                      td #{orders[i].distance}
+                      td #{orders[i].price}
+                      td #{orders[i].publish_time}
+                      td #{orders[i].created_time}
+                      td
+                        a(href="/api/driver/edit?id=#{orders[i].driver._id}",target="blank") #{orders[i].driver.user.name}
+                      td #{orders[i].state==1?"司机已接单":(orders[i].state==2?'司机已取货':(orders[i].state==3?'运送中':(orders[i].state==4?'司机确认交货':(orders[i].state==5?'收货方发起投诉':(orders[i].state==6?'投诉处理完成':(orders[i].state==7 ? '收货方确认收货':'已完成'))))))}
+                      td
+                          a(href="/api/order/detail?id=#{orders[i]._id}") 查看
+        div.row-fluid
+          div.span6
+          div.span6
+            div.dataTables_paginate.paging_bootstrap.pagination
+              ul#page.pagination
+
+
+    script.
+        var page = '#{page}';
+        var page_total = '#{page_total}';
+
+        if (page_total > 1) {
+          $('#page').bootstrapPaginator({
+            currentPage: page,
+            totalPages: page_total,
+            size: "normal",
+            bootstrapMajorVersion: 3,
+            alignment: "right",
+            numberOfPages: 5,
+            itemTexts: function (type, page, current) {
+              switch (type) {
+                case "first":
+                  return "首页";
+                case "prev":
+                  return "上一页";
+                case "next":
+                  return "下一页";
+                case "last":
+                  return "末页";
+                case "page":
+                  return page;
+              }
+            },
+            onPageClicked: function (e, originalEvent, type, page) {
+              console.log("Page item clicked, type: " + type + " page: " + page);
+
+              window.open("/api/order/all?page=" + page, "_self");
+            }
+          })
+        }
