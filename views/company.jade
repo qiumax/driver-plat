@@ -32,10 +32,12 @@ block content
                       td #{companys[i].contact_phone}
                       td #{companys[i].create_time}
                       td
-                        -if(companys[i].state)
+                        -if(companys[i].state && !companys[i].deleted)
                           span.label.label-success 已启用
-                        -else
+                        -else if(!companys[i].state && !companys[i].deleted)
                           span.label 已停用
+                        -else
+                          span.label 已删除
                       td
                         a(href="/api/company/edit?id=#{companys[i]._id}") 编辑
 

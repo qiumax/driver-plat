@@ -142,8 +142,14 @@ driverController.driver_update = function(req, res) {
 	console.log(req.body)
     var driver_id = req.body.driver_id
     var state = req.body.state
+	var truck_length = req.body.truck_length
+	var truck_type = req.body.truck_type
 	console.log(req.body)
-    Driver.findByIdAndUpdate(driver_id, {state: state}, {new:true}).then(driver=>{
+    Driver.findByIdAndUpdate(driver_id, {
+    	state: state,
+	    truck_type:truck_type,
+	    truck_length:truck_length
+    }, {new:true}).then(driver=>{
         console.log(driver)
         res.redirect('/api/driver/edit?id='+driver_id)
     })

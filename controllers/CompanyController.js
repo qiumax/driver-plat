@@ -109,8 +109,10 @@ companyController.add = function(req, res) {
             price_dun: body.price_dun,
             price_fang: body.price_fang,
 	        price_peizai:body.price_peizai,
-	        price_zhengche:body.price_zhengche,
-	        price_chaoxian:body.price_chaoxian,
+	        price_zhengche_notchao:body.price_zhengche_notchao,
+	        price_peizai_notchao:body.price_peizai_notchao,
+	        price_zhengche_chao:body.price_zhengche_chao,
+	        price_peizai_chao:body.price_peizai_chao,
             state: true,
             deleted: false
         }), req.body.password, function (err, company) {
@@ -150,9 +152,10 @@ companyController.update = function(req, res) {
 		company.contact_phone = body.contact_phone;
 		company.price_dun = body.price_dun;
 		company.price_fang = body.price_fang;
-		company.price_peizai = body.price_peizai,
-		company.price_zhengche = body.price_zhengche,
-		company.price_chaoxian = body.price_chaoxian,
+		company.price_peizai_notchao = body.price_peizai_notchao,
+		company.price_zhengche_notchao = body.price_zhengche_notchao,
+		company.price_peizai_chao = body.price_peizai_chao,
+		company.price_zhengche_chao = body.price_zhengche_chao,
 		company.state = body.state;
   
 		company.save( function( err ){

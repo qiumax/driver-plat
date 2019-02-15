@@ -23,15 +23,18 @@ block content
                 p(type="text"  style="margin-top:5px") #{driver.phone}
 
 
-            div.control-group
-              label.control-label 省：
-              div.controls
-                input.span7(type="text" name="province" value="#{driver.province}" required)
 
             div.control-group
-              label.control-label 城市：
+              label.control-label 车型：
               div.controls
-                input.span7(type="text" name="city" value="#{driver.city}" required)
+                p(type="text"  style="margin-top:5px") #{driver.truck_type}
+
+
+
+            div.control-group
+              label.control-label 车长：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{driver.truck_length}
 
             div.control-group
               label.control-label 身份证正面：

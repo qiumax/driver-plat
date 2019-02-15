@@ -43,6 +43,52 @@ orderController.all = function(req, res) {
 	})
 };
 
+orderController.ing = function(req, res) {
+	var page = req.query.page || 1
+	var page_size = req.query.page_size || req.app.get('config').page_size
+
+	Order.countDocuments({
+		$and:[
+			{state:{$ne:6}},
+			{state:{$ne:8}}
+		]
+	}, function(err, count) {
+		if (err) throw err
+		console.log(count)
+		Order.find({
+			$and:[
+				{state:{$ne:6}},
+				{state:{$ne:8}}
+			]
+		}).sort({created_at:-1}).skip((page-1)*page_size).limit(page_size).populate({
+			path: 'driver',
+			model: 'Driver',
+			populate: {
+				path: 'user',
+				model: 'User'
+			}
+		}).populate({
+			path: 'account',
+			model: 'Account',
+			populate: {
+				path: 'company',
+				model: 'Company'
+			}
+		}).then(orders=>{
+			orders.forEach(order=>{
+				order.created_time = moment(order.created_at).format('YYYY-MM-DD HH:mm:ss')
+				order.publish_time = Dateformat(new Date(order.publish_at*1000),'yyyy-mm-dd HH:MM')
+			})
+			res.render('order', {
+				orders: orders,
+				username:req.session.passport.user,
+				page: page,
+				pagetype:'ing',
+				page_total: count%page_size==0? count/page_size:(Math.floor(count/page_size)+1)
+			})
+		})
+	})
+};
 
 
 orderController.finish = function(req, res) {
@@ -85,6 +131,7 @@ orderController.finish = function(req, res) {
 				orders: orders,
 				username:req.session.passport.user,
 				page: page,
+				pagetype:'finish',
 				page_total: count%page_size==0? count/page_size:(Math.floor(count/page_size)+1)
 			})
 		})
@@ -180,6 +227,7 @@ orderController.detail = function (req,res) {
 orderController.search=function (req,res) {
 	var page = req.query.page || 1
 	var page_size = req.query.page_size || req.app.get('config').page_size
+	var pagetype = req.body.pagetype
 	var query = req.body.query
 	console.log(query)
 	var pattern = query
@@ -207,8 +255,36 @@ orderController.search=function (req,res) {
 					//orders
 					console.log(account_users)
 					if(account_users.length>0){
-						Order.count({account:{$in:account_users}}, function(err, count) {
-							Order.find({account:{$in:account_users}}).sort({created_at:-1}).populate({
+						var findquery={}
+						if(pagetype=='ing')
+						{
+							findquery={
+								account:{$in:account_users},
+								$and:[
+									{state:{$ne:6}},
+									{state:{$ne:8}}
+								]
+							}
+						}
+						else if(pagetype=='finish')
+						{
+							findquery={
+								account:{$in:account_users},
+								$or:[
+									{state:6},
+									{state:8}
+								]
+							}
+						}
+						else
+						{
+							findquery={
+								account:{$in:account_users},
+								state:0
+							}
+						}
+						Order.count(findquery, function(err, count) {
+							Order.find(findquery).sort({created_at:-1}).populate({
 								path: 'driver',
 								model: 'Driver',
 								populate: {
@@ -230,6 +306,7 @@ orderController.search=function (req,res) {
 								})
 								res.render('order', {
 									orders: orders,
+									pagetype:pagetype,
 									username:req.session.passport.user
 
 								});

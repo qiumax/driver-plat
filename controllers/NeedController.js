@@ -95,7 +95,10 @@ needController.search = function (req, res) {
 						console.log(account_users)
 						if(account_users.length>0){
 							Need.count({account:{$in:account_users}}, function(err, count) {
-								Need.find({account:{$in:account_users}}).sort({created_at:-1}).skip((page-1)*page_size).limit(page_size).populate({
+								Need.find({
+									account:{$in:account_users},
+									closed:false
+								}).sort({created_at:-1}).skip((page-1)*page_size).limit(page_size).populate({
 									path: 'account',
 									model: 'Account',
 									populate: {

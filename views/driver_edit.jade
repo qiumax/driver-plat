@@ -22,16 +22,20 @@ block content
 
 
 
-            div.control-group
-              label.control-label 省：
-              div.controls
-                input.span7(value="#{driver.user.province}" type="text")
 
 
             div.control-group
-              label.control-label 市：
+              label.control-label 车型：
               div.controls
-                input.span7(value="#{driver.user.city}" type="text")
+                p(type="text"  style="margin-top:5px") #{driver.user.truck_type}
+
+
+
+            div.control-group
+              label.control-label 车长：
+              div.controls
+                p(type="text"  style="margin-top:5px") #{driver.user.truck_length}
+
 
             div.control-group
               label.control-label 身份证正面：

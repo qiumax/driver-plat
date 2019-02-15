@@ -56,31 +56,28 @@ block content
                 div.controls
                   input.span5(type="text", name="contact_phone", required)
 
-              div.control-group
-                label.control-label 价格(元/吨/公里)：
-                div.controls
-                  input.span5(type="text", name="price_dun", required)
 
-
-              div.control-group
-                label.control-label 价格(元/方/公里)：
-                div.controls
-                  input.span5(type="text", name="price_fang", required)
 
               div.control-group
                 label.control-label 配载价格(元/吨/公里)：
                 div.controls
-                  input.span5(type="text", name="price_peizai", required)
+                  input.span5(type="text", name="price_peizai_notchao", required)
+
+              div.control-group
+                label.control-label 配载超限价格(元/吨/公里)：
+                div.controls
+                  input.span5(type="text", name="price_peizai_chao", required)
 
               div.control-group
                 label.control-label 整车价格(元/吨/公里)：
                 div.controls
-                  input.span5(type="text", name="price_zhengche", required)
+                  input.span5(type="text", name="price_zhengche_notchao", required)
 
               div.control-group
-                label.control-label 超限价格(元/吨/公里)：
+                label.control-label 整车超限价格(元/吨/公里)：
                 div.controls
-                  input.span5(type="text", name="price_chaoxian", required)
+                  input.span5(type="text", name="price_zhengche_chao", required)
+
 
       div.widget-footer
         button.btn.btn-primary(type="button" onclick="submitform()") 新增

@@ -90,7 +90,7 @@ block content
                 div.control-group
                   label.control-label 投诉处理：
                   div.controls
-                    p(type="text"  style="margin-top:5px") 投诉时间：#{order.handletime}
+                    p(type="text"  style="margin-top:5px") 处理时间：#{order.handletime}
                     p(type="text"  style="margin-top:5px") 处理意见：#{order.plat_handle_tousu.content}
                     -if(order.plat_handle_tousu.pics && order.plat_handle_tousu.pics.length>0)
                       -for(var i=0;i<order.plat_handle_tousu.pics.length;i++)

@@ -109,18 +109,23 @@ html
 
                           div#collapse3.accordion-body.collapse
                             div.accordion-inner
-                              a.accordion-toggle(href="/api/order/all")
-                                i.icon-circle(style="padding:0 8px;")
-                                运单列表
-                              a.accordion-toggle(href="/api/order/finish")
-                                i.icon-circle(style="padding:0 8px;")
-                                已完成
                               a.accordion-toggle(href="/api/need/all")
                                 i.icon-circle(style="padding:0 8px;")
                                 待接单
+
+                              a.accordion-toggle(href="/api/order/ing")
+                                i.icon-circle(style="padding:0 8px;")
+                                进行中
+
                               a.accordion-toggle(href="/api/service/handle")
                                 i.icon-circle(style="padding:0 8px;")
                                 投诉待处理
+
+                              a.accordion-toggle(href="/api/order/finish")
+                                i.icon-circle(style="padding:0 8px;")
+                                已完成
+
+
 
 
                         div.accordion-group

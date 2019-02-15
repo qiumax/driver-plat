@@ -13,6 +13,7 @@ block content
               div.span6
                 div.dataTables_length
                   input(id="query", name="query", placeholder="请输入关键字", value="", type="text")
+                  input(type="hidden" name="pagetype" value="#{pagetype}")
                   button.btn.btn-sm.btn-primary(type="submit" style="margin-left:10px;") 搜索
         table.table.table-striped.table-bordered.dataTable#users
           thead

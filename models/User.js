@@ -26,7 +26,8 @@ var UserSchema = new Schema({
     truck_img_2: String,
     insurance_img: String,
     sany_truck_img: String,
-    
+    truck_type:String,
+	truck_length:String,
     refer1_id: String,
     refer2_id: String,
     followers: [String]

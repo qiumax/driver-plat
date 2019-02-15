@@ -16,9 +16,10 @@ var CompanySchema = new Schema({
 	license_image: String,
 	price_dun: Number,
 	price_fang: Number,
-	price_peizai:Number,
-	price_zhengche:Number,
-	price_chaoxian:Number,
+	price_peizai_notchao:Number,
+	price_peizai_chao:Number,
+	price_zhengche_notchao:Number,
+	price_zhengche_chao:Number,
 	state: Boolean,
 	deleted: Boolean,
 	need_change_pwd: Boolean

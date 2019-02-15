@@ -295,7 +295,10 @@ serviceController.search=function (req,res) {
 					console.log(account_users)
 					if(account_users.length>0){
 						Order.count({account:{$in:account_users}}, function(err, count) {
-							Order.find({account:{$in:account_users}}).sort({created_at:-1}).populate({
+							Order.find({
+								account:{$in:account_users},
+								state:5
+							}).sort({created_at:-1}).populate({
 								path: 'driver',
 								model: 'Driver',
 								populate: {
